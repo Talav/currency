@@ -128,7 +128,7 @@ Reading a code back gives an ISO 4217 currency. A code alone does not say how ma
 
 ## Zero Value
 
-`currency.Currency{}` is not a currency. It stands for a missing one, and other methods are meaningless on it.
+A currency is built by a constructor, but Go still lets anyone write `currency.Currency{}`. That value is not a currency. It stands for a missing one: `IsValid` returns false, and other methods are meaningless on it.
 
 ## ISO 4217 Data
 

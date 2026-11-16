@@ -34,8 +34,8 @@ const (
 // ISO 4217 gives it. Currencies are comparable with == and usable as map
 // keys.
 //
-// The zero value is not a currency. It stands for a missing one, and other
-// methods are meaningless on it.
+// The zero value is not a currency. It stands for a missing one, IsValid
+// reports false for it, and other methods are meaningless on it.
 type Currency struct {
 	// code identifies the currency: three upper-case letters for an ISO 4217
 	// currency, 2 to 12 upper-case letters or digits for any other.
@@ -80,6 +80,13 @@ func NewCurrencyFromString(s string) (Currency, error) {
 	}
 
 	return c, nil
+}
+
+// IsValid reports whether c is a currency. It is false only for the zero
+// value, which stands for a missing one; every Currency from a constructor
+// is valid.
+func (c Currency) IsValid() bool {
+	return c != Currency{}
 }
 
 // Code returns the code of the currency, such as USD.

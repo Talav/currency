@@ -146,6 +146,30 @@ func TestNewCurrencyFromString(t *testing.T) {
 	}
 }
 
+func TestCurrencyIsValid(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name     string
+		currency currency.Currency
+		want     bool
+	}{
+		{name: "zero value", currency: currency.Currency{}, want: false},
+		{name: "ISO currency", currency: iso(t, "USD"), want: true},
+		{name: "ISO currency without decimals", currency: iso(t, "JPY"), want: true},
+		{name: "custom currency", currency: custom(t, "BTC", 8), want: true},
+		{name: "custom currency without decimals", currency: custom(t, "PTS", 0), want: true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			assert.Equal(t, tt.want, tt.currency.IsValid())
+		})
+	}
+}
+
 func TestCurrencyEquality(t *testing.T) {
 	t.Parallel()
 
