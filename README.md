@@ -2,7 +2,6 @@
 
 [![tag](https://img.shields.io/github/tag/talav/currency.svg)](https://github.com/talav/currency/tags)
 [![Go Reference](https://pkg.go.dev/badge/github.com/talav/currency.svg)](https://pkg.go.dev/github.com/talav/currency)
-[![Go Report Card](https://goreportcard.com/badge/github.com/talav/currency)](https://goreportcard.com/report/github.com/talav/currency)
 [![CI](https://github.com/talav/currency/workflows/Currency%20CI/badge.svg)](https://github.com/talav/currency/actions)
 [![codecov](https://codecov.io/gh/talav/currency/graph/badge.svg)](https://codecov.io/gh/talav/currency)
 [![License](https://img.shields.io/github/license/talav/currency)](./LICENSE)
