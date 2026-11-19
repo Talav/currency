@@ -1,9 +1,9 @@
 // Package currency provides Currency: a currency identified by its code,
 // together with the number of decimal places its amounts are kept to.
 //
-// The currencies of ISO 4217 are built in and come from NewCurrencyFromString.
-// Any other currency, such as a cryptocurrency or a withdrawn national
-// currency, comes from NewCurrency.
+// The currencies of ISO 4217 are built in. Each is a named value, such as USD,
+// and comes from NewCurrencyFromString. Any other currency, such as a
+// cryptocurrency or a withdrawn national currency, comes from NewCurrency.
 package currency
 
 import (
@@ -29,10 +29,10 @@ const (
 // A Currency is a unit of money: a code, the ISO 4217 number if it has one,
 // and the number of decimal places of its smallest unit.
 //
-// A Currency comes only from a constructor, so its code is well formed and a
-// code that ISO 4217 lists always carries the number and decimal places that
-// ISO 4217 gives it. Currencies are comparable with == and usable as map
-// keys.
+// A Currency is a named value or comes from a constructor, so its code is well
+// formed and a code that ISO 4217 lists always carries the number and decimal
+// places that ISO 4217 gives it. Currencies are comparable with == and usable
+// as map keys.
 //
 // The zero value is not a currency. It stands for a missing one, IsValid
 // reports false for it, and other methods are meaningless on it.

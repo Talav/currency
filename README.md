@@ -11,6 +11,7 @@ A currency value for Go: a code, its ISO 4217 number and its decimal places, tha
 ## Features
 
 - **ISO 4217 built in**: all current currencies and funds, with numeric codes and decimal places
+- **Named values**: `currency.USD`, `currency.EUR`, ... with no error to handle
 - **Custom currencies**: cryptocurrencies, withdrawn currencies or anything else, as plain values
 - **Valid by construction**: constructors return an error instead of a malformed code
 - **One code, one meaning**: an ISO code always carries the ISO data and cannot be redefined
@@ -40,14 +41,9 @@ import (
 )
 
 func main() {
-    usd, err := currency.NewCurrencyFromString("USD")
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    fmt.Println(usd.Code())        // USD
-    fmt.Println(usd.NumericCode()) // 840
-    fmt.Println(usd.Decimals())    // 2
+    fmt.Println(currency.USD.Code())        // USD
+    fmt.Println(currency.USD.NumericCode()) // 840
+    fmt.Println(currency.USD.Decimals())    // 2
 
     btc, err := currency.NewCurrency("BTC", 8)
     if err != nil {
@@ -60,14 +56,24 @@ func main() {
 
 ## Usage
 
-### ISO 4217 currencies
+### Named values
+
+Every ISO 4217 currency is a variable named by its code:
 
 ```go
-jpy, err := currency.NewCurrencyFromString("JPY")
+currency.JPY.Code()        // "JPY"
+currency.JPY.NumericCode() // 392
+currency.JPY.Decimals()    // 0
+```
 
-jpy.Code()        // "JPY"
-jpy.NumericCode() // 392
-jpy.Decimals()    // 0
+### Parsing
+
+A code read from data, such as a file or a request, goes through `NewCurrencyFromString`:
+
+```go
+c, err := currency.NewCurrencyFromString(" usd ")
+
+c == currency.USD // true
 ```
 
 The code may be in any letter case, and white space around it is ignored, so `"usd"` and `" USD "` both give USD. It must be on list one of ISO 4217, the current currencies and funds. Anything else is an error:
@@ -103,10 +109,12 @@ _, err := currency.NewCurrency("USD", 4)
 Two currencies are equal when their code and decimal places are equal:
 
 ```go
-a, _ := currency.NewCurrencyFromString("USD")
-b, _ := currency.NewCurrencyFromString("USD")
+a, _ := currency.NewCurrency("BTC", 8)
+b, _ := currency.NewCurrency("BTC", 8)
+c, _ := currency.NewCurrency("BTC", 2)
 
 a == b // true
+a == c // false: the decimal places differ
 ```
 
 ### JSON and SQL
@@ -127,11 +135,11 @@ Reading a code back gives an ISO 4217 currency. A code alone does not say how ma
 
 ## Zero Value
 
-A currency is built by a constructor, but Go still lets anyone write `currency.Currency{}`. That value is not a currency. It stands for a missing one: `IsValid` returns false, and other methods are meaningless on it.
+A currency is a named value or is built by a constructor, but Go still lets anyone write `currency.Currency{}`. That value is not a currency. It stands for a missing one: `IsValid` returns false, and other methods are meaningless on it.
 
 ## ISO 4217 Data
 
-The table in [`iso4217.go`](./iso4217.go) follows list one of ISO 4217 as published by the standard's maintenance agency on 2026-09-17. Withdrawn currencies are not included.
+The named values in [`iso4217.go`](./iso4217.go) follow list one of ISO 4217 as published by the standard's maintenance agency on 2026-09-17. Withdrawn currencies are not included.
 
 ## Testing
 
